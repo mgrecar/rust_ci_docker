@@ -15,6 +15,6 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain stable -y \
     && /root/.cargo/bin/rustup update nightly \
     && /root/.cargo/bin/rustup run nightly cargo install clippy
 # Set the path so subsequent cargo commands are short
-ENV PATH "/root/.cargo/bin:$PATH"
+ENV PATH="/root/.cargo/bin:$PATH" HOME="/root" USER=root
 # Clear out CMD
 CMD []
