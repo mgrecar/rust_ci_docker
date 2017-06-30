@@ -1,0 +1,28 @@
+language: none
+env:
+  - DOCKER_REPO=rust_ci DOCKER_ACC=mgrecar
+build:
+  pre_ci:
+    - docker build -t test_image:latest .
+  pre_ci_boot:
+    image_name: test_image
+    image_tag: latest
+    pull: false
+  ci:
+    - cargo new --bin test_project && cd test_project 
+    - cargo build
+    - cargo test
+    - rustup run nightly cargo clippy
+  on_success:
+    - if [ "$BRANCH" == "master" ]; then 
+        docker build --compress -t $DOCKER_ACC/$DOCKER_REPO:latest . &&
+        docker push $DOCKER_ACC/$DOCKER_REPO:$BUILD_NUMBER &&
+        docker push $DOCKER_ACC/$DOCKER_REPO:latest;
+      fi;
+integrations:
+  hub:
+    - integrationName: mgrecar_docker
+      type: docker
+      branches:
+        only:
+          - master
