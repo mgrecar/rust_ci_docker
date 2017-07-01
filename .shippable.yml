@@ -16,7 +16,7 @@ build:
     - cd ..
   on_success:
     - if [ "$BRANCH" == "master" ]; then 
-        docker build -t $DOCKER_ACC/$DOCKER_REPO:latest . &&
+        docker build -t $DOCKER_ACC/$DOCKER_REPO:latest -t $DOCKER_ACC/$DOCKER_REPO:$BUILD_NUMBER . &&
         docker push $DOCKER_ACC/$DOCKER_REPO:$BUILD_NUMBER &&
         docker push $DOCKER_ACC/$DOCKER_REPO:latest;
       fi;
