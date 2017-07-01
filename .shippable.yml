@@ -13,6 +13,7 @@ build:
     - cargo build
     - cargo test
     - rustup run nightly cargo clippy
+    - cd ..
   on_success:
     - if [ "$BRANCH" == "master" ]; then 
         docker build -t $DOCKER_ACC/$DOCKER_REPO:latest . &&
